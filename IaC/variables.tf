@@ -146,6 +146,13 @@ variable "ingress_rules" {
       to_port     = 8010
       protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
+    },
+    {
+      description = "Streamlit"
+      from_port   = 8501
+      to_port     = 8501
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
     }
   ]
 }
