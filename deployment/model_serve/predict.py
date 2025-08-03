@@ -5,7 +5,7 @@ from typing import Dict, Any
 import cloudpickle
 
 # Load model and DictVectorizer
-with open("deployed_models/model_bundle.pkl", "rb") as f_in:
+with open("deployed_models/model_bundle.pkl", "rb") as f_in: # model path with respect to accessibility with containerization (/app workdir)
    model_bundle = cloudpickle.load(f_in)
 
 model = model_bundle["model"]
