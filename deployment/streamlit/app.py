@@ -131,7 +131,7 @@ if st.button("Submit for Prediction"):
     try:
         # response = requests.post("http://localhost:8010/predict", json=payload)
         # response = requests.post("http://ec2-16-16-201-186.eu-north-1.compute.amazonaws.com:8010/predict", json=payload)
-        response = requests.post("http://fastapi_app:8010/predict", json=payload)
+        response = requests.post("http://fastapi_app:8010/predict", json=payload) # call with container name mentioned in the docker-compose.yml
 
         if response.status_code == 200:
             result = response.json()
