@@ -6,11 +6,12 @@ pandas
 numpy
 matplotlib
 seaborn
-mlflow
+mlflow==2.22.0
 hyperopt
 prefect
 boto3
 s3fs
+awscli
 fastapi
 uvicorn
 httpx
