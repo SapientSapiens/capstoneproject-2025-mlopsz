@@ -7,20 +7,37 @@
   But running them efficiently is a challenge.
 
   🔢 Operators must anticipate hourly fluctuations in bike demand
+
+
   ➡️ To ensure bikes are available when and where they’re needed
+
+
   ➡️ To prevent overcrowded or empty docking stations
+
+
   ➡️ To avoid resource wastage and customer dissatisfaction
 
+
   📉 Inaccurate demand forecasts lead to poor user experience and operational inefficiencies
+
+
   📊 The demand varies due to multiple factors like time of day, weather, season, or public events
+
 
   Now, the technical twist:
 
+
   ⚠️ Even well-performing ML models tend to degrade over time
+
+
   📉 This is caused by data drift — shifts in user behavior, weather trends, and unexpected anomalies (e.g., local festivals or global events like a pandemic)
+
+
   ❌ Without proper monitoring and updating, these models can make unreliable predictions that hurt business outcomes
 
+
   That’s why the challenge isn’t just about forecasting demand — it’s about keeping predictions accurate consistently, despite change 🌀
+
 
 
  ## 🧠Solution Overview
