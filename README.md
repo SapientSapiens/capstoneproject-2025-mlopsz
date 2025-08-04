@@ -40,7 +40,7 @@
 
 
 
- ## 🧠Solution Overview
+ ## 🧠Solution Outline
 
   This project presents a machine learning-based solution to forecast hourly bike rental demand. The approach involves combining historical usage data with external features like weather conditions and time-based variables to train a predictive model capable of estimating future demand.
 
@@ -112,5 +112,24 @@
    ### 📚Data Splitting Strategy
 
    To simulate a realistic MLOps lifecycle, the 24-month dataset is split as follows:
+
+   _📊 Train Set (Months 1–16)_
+
+   → Used to train the initial model (primarily data from 2011)
+
+   _🧪 Validation/Test Set (Months 17–20)_
+
+   → Used to evaluate model generalization and performance
+
+   → Also serves as the reference dataset in monitoring workflows (e.g., with Evidently AI)
+
+   _📈 Simulated Production Data (Months 21–24)_
+
+   → Acts as "newly arriving" data with ground truth labels
+
+   → Used to detect drift, trigger retraining if needed, and simulate batch ingestion
+
+
+   ### This structured setup mirrors a production-ready data pipeline and ensures the project aligns with MLOps principles — preparing us not just to build a great model, but to monitor and maintain it continuously ✅
 
    
