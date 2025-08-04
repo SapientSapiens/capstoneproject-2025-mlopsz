@@ -130,6 +130,6 @@
    → Used to detect drift, trigger retraining if needed, and simulate batch ingestion
 
 
-   ### This structured setup mirrors a production-ready data pipeline and ensures the project aligns with MLOps principles — preparing us not just to build a great model, but to monitor and maintain it continuously ✅
+   #### This structured setup mirrors a production-ready data pipeline and ensures the project aligns with MLOps principles — preparing us not just to build a great model, but to monitor and maintain it continuously ✅
 
    
