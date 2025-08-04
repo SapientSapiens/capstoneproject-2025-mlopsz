@@ -58,6 +58,59 @@
 
   The result is not just a high-performing predictive model, but a __sustainable machine learning operation (MLOPS)__ pipeline that supports continuous improvements and long-term business value.
 
- ## 
+
+
+ ## 📦Data Overview
+
+  This project uses real-world data from the Capital Bikeshare system in Washington, D.C., covering hourly rental activity from 2011 to 2012 🗓️🚲. To build a unified and comprehensive dataset, data was ingested from two different sources:
+
+
+   1️⃣ Kaggle - Bike Sharing Demand
+
+   🔹 Contains actual (unscaled) feature values
+
+   🔹 Test set here does not include the target variable (count)
+
+   2️⃣ UCI - Bike Sharing Dataset
+
+   🔹 Contains normalized feature values
+
+   🔹 Provides the target variable even for the test data
+
+   To overcome the limitations of both datasets, we merged them thoughtfully to produce a single, rich dataset suitable for training and evaluation. This data transformation and unification simulates a simplified ETL pipeline, where:
+
+   📥 Data was Extracted from two sources
+
+   🧹 Cleaned, Transformed to standard structure
+
+   🪣 Loaded into a simulated Data Lake (S3) for downstream usage ------->>> the training pipiline!!
+
+
+   ### 🧾Dataset Summary
+
+   The dataset includes hourly data points with associated weather, time, and user metrics:
+
+   - *datetime – timestamp of the rental*
+
+   - *season – 1: spring 🌱 | 2: summer ☀️ | 3: fall 🍂 | 4: winter ❄️*
+
+   - *holiday – whether the day was a public holiday 🎉*
+
+   - *workingday – true if it was a weekday that's not a holiday 📆*
+
+   - *weather – encoded weather condition (clear, mist, snow, etc.) 🌦️*
+
+   - *temp, atemp – actual and “feels like” temperature 🌡️*
+
+   - *humidity, windspeed – relative humidity and wind speed 💨*
+
+   - *casual, registered – rental counts for unregistered and registered users*
+
+   - *count – total rental count per hour (📌 our target variable)*
+
+
+   ### 📚Data Splitting Strategy
+
+   To simulate a realistic MLOps lifecycle, the 24-month dataset is split as follows:
 
    
