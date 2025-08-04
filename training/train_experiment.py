@@ -10,6 +10,7 @@ from hyperopt import STATUS_OK, Trials, fmin, hp, tpe
 from hyperopt.pyll import scope
 from sklearn.metrics import root_mean_squared_error, r2_score, mean_squared_log_error
 from lightgbm import LGBMRegressor
+from prefect import task
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -23,6 +24,7 @@ mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("bike_demand_prediction_experiment")
 
 # Reads a pickle (.pkl) file from an S3 bucket and loads it into a pandas DataFrame.
+@task(name="read_pickle_file_from_S3", retries=3, retry_delay_seconds=10)
 def read_pickle_from_s3(bucket_name, s3_key):    
     try:
         s3 = boto3.client("s3")
@@ -36,7 +38,7 @@ def read_pickle_from_s3(bucket_name, s3_key):
         logger.error(f"❌ Failed to load pickle from S3: {e}")
         raise
 
-
+@(name="pre-process_data_with_Encoding")
 def preprocess_for_train(df):
     # segregate categorical and continuous features
     categoricalFeatureNames = ["season","weather", "bad_weather", "holiday","workingday", "hour", "hour_workingday", "day_name","month","year", "rush_hour", "part_of_day", "temp_tolerance_feel"]
@@ -68,7 +70,7 @@ def preprocess_for_train(df):
     logger.info(f"✅ Successfully pre-preocessed and split dataset for training and testing")
     return X_train_vec, y_train, X_test_vec, y_test, dv
 
-
+@task(name="hyper_parameter_tuning_experiment")
 def optimized_training(X_train_vec, y_train, X_val_vec, y_val, dv, num_trials):
 
     def objective(params):
@@ -116,7 +118,7 @@ def optimized_training(X_train_vec, y_train, X_val_vec, y_val, dv, num_trials):
     )
     logger.info(f"✅ Successfully completed the {num_trials} experimnent runs")
 
-
+@task(name="run_track_experiment")
 def run_track_experiment():
     df = read_pickle_from_s3(BUCKET, f"{PREFIX}/{pickle_file_name}")
     X_train_vec, y_train, X_val_vec, y_val, dv = preprocess_for_train(df) # as the test data is to be used for validation

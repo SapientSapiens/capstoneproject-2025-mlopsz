@@ -14,6 +14,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.feature_extraction import DictVectorizer
 import warnings
 from pandas.errors import SettingWithCopyWarning
+from prefect import task
 
 warnings.simplefilter(action='ignore', category=SettingWithCopyWarning)
 
@@ -81,6 +82,7 @@ def label_temp(t):
     else:
         return 'boiling_hot'
 
+@task(name="windspeed_impute_with_ML")
 def windspeedImputer(df_eda_full):
     # Columns to use — categorical (string) + numerical
     wind_features = ["season", "weather", "humidity", "temp", "hour", "month", "year"]
@@ -116,7 +118,7 @@ def windspeedImputer(df_eda_full):
     logger.info("✅ Successfully imputed the windspeed and returning the imputed dataframe")
     return df_eda_full_imputed
 
-
+@task(name="data_ingestion", retries=3, retry_delay_seconds=10)
 def load_raw_data(bucket, prefix):
     try:
         df_eda_full = read_csv_from_s3(bucket, f"{prefix}/entire_data.csv")
@@ -131,7 +133,7 @@ def load_raw_data(bucket, prefix):
         logger.error(f"❌ Failed to load raw data from S3: {e}")
         raise
 
-
+@task(name="data_transformation")
 def data_transform(df_eda_full, df_drift_test):
     logger.info("✅ Starting to feature engineer.....")
     # Getting the targeted data set
@@ -188,7 +190,7 @@ def data_transform(df_eda_full, df_drift_test):
     logger.info("✅ Feature Engineered Successfully and returning the Feature Engineered dataframe")
     return df_eda_full
 
-
+@task(name="upload_to_S3", retries=3, retry_delay_seconds=10)
 def save_and_upload(df_eda_full):
     try:
         # Save temporarily in current directory
@@ -221,8 +223,8 @@ def save_and_upload(df_eda_full):
             except Exception as cleanup_err:
                 logger.warning(f"⚠️ Failed to delete temp file: {cleanup_err}")
 
-
-def main():
+@task(name="feature_engineering_main")
+def feature_engineering_main():
     df_eda_full, df_drift_test =  load_raw_data(BUCKET, PREFIX)
     df_eda_full = data_transform(df_eda_full, df_drift_test)
     df_imputed = windspeedImputer(df_eda_full)
@@ -230,4 +232,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    feature_engineering_main()

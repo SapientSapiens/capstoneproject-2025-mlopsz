@@ -6,6 +6,7 @@ from pathlib import Path
 import mlflow
 from mlflow.tracking import MlflowClient
 from mlflow.artifacts import download_artifacts
+from prefect import task
 
 # Setup logger
 logging.basicConfig(
@@ -14,7 +15,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-
+@task(name="retrieve_from_model_artifact_store_at_S3", retries=3, retry_delay_seconds=10)
 def download_deployable_model():
     mlflow.set_tracking_uri("http://127.0.0.1:5000")
     experiment_name = "bike_demand_prediction_best_model"
@@ -50,7 +51,7 @@ def download_deployable_model():
     except Exception as e:
         logger.error(f"Error loading model: {e}")
 
-
+@task(name="bundle_model_arifact_and_cleanup_files")
 def bundle_and_cleanup():
     dv_path = Path("dv.pkl")
     model_path = Path("saved_model/model/model.pkl")
@@ -87,7 +88,7 @@ def bundle_and_cleanup():
 
     logger.info("🧹 Cleaned up dv.pkl and model.pkl")
 
-
+@task(name="prepare_production_artifacts")
 def prepare_production_artifacts():
     try:
         logger.info("⬇️  Downloading deployable model...")
