@@ -185,7 +185,25 @@
    - Other significant executions have been screeshot and placed [__here__](images/IaC)
 
 
+ ## Training Pipeline with Experiment tracking and model registry
 
+   - Our training pipeline of this project has many components out of which the following uses experiment tracking and model registry
+   
+     ⮞ Hyper-parameter optimization
+      
+     ⮞ Trained model with best hyper=parameters and register it to model registry and transition its state to Production.
+
+   - The experiment tracking, model registry and model artifact store is powered by MLFlow
+
+   - For productionizing the MLFlow atifact store, it has been pointed to a data lake (S3 bucket)
+
+        
+   |                                                                     |                                                                    |                                           |
+   |---------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------|
+   | ![alt text](images/training/compair-rmse-of-all-experimnt-runs.png) | ![alt text](images/training/mlflow-registered-perfecto-absolut.png)  | ![alt text](images/training/final-s3-web-console-artifact.png) |
+
+   
+   - Other significant executions have been screeshot and placed [__here__](images/training) 
 
   ## 📦 ⟶ 🔁 ⟶ 🎯Reporoducibility ##
 
