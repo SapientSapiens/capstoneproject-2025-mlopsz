@@ -161,16 +161,16 @@
 
 
 
-   #### Architecture and interplay of these components for running this MLOPS pipeline ####  
+ ## ☁️Cloud and Terraform
 
-    
+  - This project is entirely developed on AWS Cloud. Only the infrastructure provisioning at AWS has been done from my local machine.
 
-   #### Project Structure ####
+  - From my local machine, I used Terraform as the IaC toolto create
 
 
-  ## Reporoducibility ##
+  ## 📦 ⟶ 🔁 ⟶ 🎯Reporoducibility ##
 
-   #### Kindly set up the environment and configuration of the VM or your local machine (with WSL). Sequentially proceeed : ####
+   #### 🏭Kindly set up the environment and configuration of the VM or your local machine (with WSL). Sequentially proceeed : ####
 
    - Installing annaconda
 
@@ -190,7 +190,7 @@
 
             sudo service docker restart
 
-     logot and re-login into the VM to this take effect
+     loguot and re-login into the VM to this take effect
 
   - Install docker-compose
 
@@ -242,7 +242,7 @@
             aws s3 mb s3://<your-bucket-name>
 
 
-   #### Now we can run the trainig pipeline : ####
+   #### 🏗️ Now we can run the trainig pipeline : ####
 
    - Start the MLFlow Server. We assume you are in the project root for all commands. Also note my artifact store is pointing to my S3 bucket, you need to set it accordingly.
 
@@ -263,7 +263,7 @@
              python -m orchestration.orchestrated_training_pipeline
 
    
-   #### Activate the deployment service pipeline : ####
+   #### 🚀Activate the deployment service pipeline : ####
 
    - One of the output of running the training pipeline is you that get the model artifact bundle (model + encoder) deployed to the deploymwnt service pipeline (/deployment/deployed_models/).
 
