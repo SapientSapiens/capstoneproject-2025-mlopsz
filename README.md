@@ -132,4 +132,110 @@
 
    #### This structured setup mirrors a production-ready data pipeline and ensures the project aligns with MLOps principles — preparing us not just to build a good model, but to monitor and maintain it continuously ✅
 
+
+
+
+ ## ⚙️🔧Technical Overview
+
+   ### Significant Technology Stack I have used ###
+
+   - Amazon Web Service as the main cloud platform
+
+   - S3 bucket as the data lake
+
+   - Terraform as Infrastructure as Code (IaC) tool.
+
+   - Prefect as the orchestration tool scheduling and executing pipeline workflows
+
+   - MLFlow for experiment tracking, moodel versioning and artifact storing at S3
+
+   - Evidently AI for MLOPS monitoring & drift detection, and  Graphana for isualiztion & alerting (__**to be completed**__)
+
+   - Hyperopt, scikit-learn, LightGBM  for ML tasks
+
+   - Uvicorn and FastAPI for model serving
+
+   - Docker & docker-compose for containerization & container orchestration
+
+   - Streamlit to build interactive UI for frontent interface for prediction  service
+
+
+
+   ### Architecture and interplay of these components for running this MLOPS pipeline ###  
+
+    
+
+   ### Project Structure ###
+
+
+  ## Reporoducibility ##
+
+   ### Kindly set up the environment and configuration of the VM or your local machine (with WSL). Sequentially proceeed : ####
+
+   - Installing annaconda
+
+            wget https://repo.anaconda.com/archive/Anaconda3-2024.10-1-Linux-x86_64.sh
+
+            bash Anaconda3-2024.10-1-Linux-x86_64.sh
+
+   - Install docker
+
+            update apt before doing so
+
+            sudo apt update   
+
+            sudo apt install docker.io
+
+            sudo gpasswd -a $USER docker
+
+            sudo service docker restart
+
+     logot and re-login into the VM to this take effect
+
+  - Install docker-compose
+
+    create a directory bin in the home directory of the VM and get inside the same
+
+            mkdir bin
+
+            cd bin
+
+    download docker-compose and make it executable
+
+            wget https://github.com/docker/compose/releases/download/v2.34.0/docker-compose-linux-x86_64 -O docker-compose
+
+            chmod +x docker-compose
+
+    return to home directory and add the path to the bin directory to the PATH variable in .bashrc
+
+             cd ~
+
+            nano .bashrc
+
+            export PATH="${HOME}/bin:${PATH}"  # add this line at the end of the .bashrc file. Save and exit the nano editor.
+
+            source .bashrc
+
+
+   - Git clone this repository 
+
+            git clone https://github.com/SapientSapiens/capstoneproject-2025-mlopsz.git
+
+
+   - Create conda virtual environment for this project (i shall my env name here and I used python version 3.11.5 in the project)
+
+            conda create -n capstoneproject-2025-mlopsz-env python=3.11.5
+
+   - Activate conda virtual environment
+
+            conda activate capstoneproject-2025-mlopsz-env
+
+   - Move indide the cloned project repository and install the project dependencies
+
+            cd  capstoneproject-2025-mlopsz-env
+
+            pip install -r requirements.txt
+
+
+
    
