@@ -38,7 +38,7 @@ def read_pickle_from_s3(bucket_name, s3_key):
         logger.error(f"❌ Failed to load pickle from S3: {e}")
         raise
 
-@(name="pre-process_data_with_Encoding")
+@task(name="pre_process_data_with_Encoding")
 def preprocess_for_train(df):
     # segregate categorical and continuous features
     categoricalFeatureNames = ["season","weather", "bad_weather", "holiday","workingday", "hour", "hour_workingday", "day_name","month","year", "rush_hour", "part_of_day", "temp_tolerance_feel"]

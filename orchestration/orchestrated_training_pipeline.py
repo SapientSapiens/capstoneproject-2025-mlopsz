@@ -1,7 +1,7 @@
 from prefect import flow
 
 # Import the @task-decorated functions directly from the scripts
-from training.feature_engineering import main as feature_engineering_main
+from training.feature_engineering import feature_engineering_main
 from training.train_experiment import run_track_experiment
 from training.register_best_model import train_register_best_model
 from training.deploy_production_artifacts import prepare_production_artifacts
