@@ -161,16 +161,16 @@
 
 
 
-   ### Architecture and interplay of these components for running this MLOPS pipeline ###  
+   #### Architecture and interplay of these components for running this MLOPS pipeline ####  
 
     
 
-   ### Project Structure ###
+   #### Project Structure ####
 
 
   ## Reporoducibility ##
 
-   ### Kindly set up the environment and configuration of the VM or your local machine (with WSL). Sequentially proceeed : ####
+   #### Kindly set up the environment and configuration of the VM or your local machine (with WSL). Sequentially proceeed : ####
 
    - Installing annaconda
 
@@ -222,7 +222,7 @@
             git clone https://github.com/SapientSapiens/capstoneproject-2025-mlopsz.git
 
 
-   - Create conda virtual environment for this project (i shall my env name here and I used python version 3.11.5 in the project)
+   - Create conda virtual environment for this project (i shall use my env name here and I used python version 3.11.5 in the project)
 
             conda create -n capstoneproject-2025-mlopsz-env python=3.11.5
 
@@ -236,6 +236,45 @@
 
             pip install -r requirements.txt
 
+
+   - Set up S3 bucket on aws manually with awscli or through the AWS webc console, or automate with Terraform. For aws, you need to your EC2 instance has permission to use the bucket. For your local machine, you can use localstack
+
+            aws s3 mb s3://<your-bucket-name>
+
+
+   #### Now we can run the trainig pipeline : ####
+
+   - Start the MLFlow Server. We assume you are in the project root for all commands. Also note my artifact store is pointing to my S3 bucket, you need to set it accordingly.
+
+            ./training/start_mlflow.sh
+
+   - Start the Prefect server. 
+
+            prefect server start
+
+   - You can also pull up the Prefect and MLFlow UI at http://localhost:4200 and http://localhost:5000. If you are running it on a VM, ensure port forward for these port are enabled.
+
+   - Now you can run the orchestrated training pipeline for the first time. 
+
+            python -m orchestration.orchestrated_training_pipeline --run-now
+
+   - Then you can deploy the training pipeline orchestrated workflow to Prefect. It shall execute automatically at the scheduled (set with a cron expression in the main flow) time.
+
+             python -m orchestration.orchestrated_training_pipeline
+
+   
+   #### Activate the deployment service pipeline : ####
+
+   - One of the output of running the training pipeline is you that get the model artifact bundle (model + encoder) deployed to the deploymwnt service pipeline (/deployment/deployed_models/).
+
+   - So now we only have to spin up the containers (one for the model serving and the other for the Streamlit model inference app) in a orchestrated way with docker-compose. 
+
+             ./deploymwnt/activate_deployment.sh
+
+  - Once the services/containers are up, you can invoke http://<your-public-ip-or-your-localhost>:8501 and use the Bike Sharing Demand Hourly Prediction Service.
+
+
+      
 
 
    

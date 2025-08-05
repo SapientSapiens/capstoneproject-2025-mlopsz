@@ -55,7 +55,7 @@ def download_deployable_model():
 def bundle_and_cleanup():
     dv_path = Path("dv.pkl")
     model_path = Path("saved_model/model/model.pkl")
-    bundle_path = Path("../deployment/deployed_models/model_bundle.pkl")
+    bundle_path = Path("./deployment/deployed_models/model_bundle.pkl")
     bundle_path.parent.mkdir(parents=True, exist_ok=True)
 
     with open(dv_path, "rb") as f_dv:
