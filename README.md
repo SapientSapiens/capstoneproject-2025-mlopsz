@@ -165,7 +165,26 @@
 
   - This project is entirely developed on AWS Cloud. Only the infrastructure provisioning at AWS has been done from my local machine.
 
-  - From my local machine, I used Terraform as the IaC toolto create
+  - From my local machine, I used Terraform as the IaC tool to [__provision and configure__](IaC/main.tf) the following at AWS (my account) :
+    
+    ⮞ S3 Bucket
+
+    ⮞ EC2 Instance
+
+    ⮞ Networking prerequisites (VPC & Subnet)
+
+    ⮞ Security Group allowing SSH
+
+    ⮞ IAM Role & Instance Profile for S3 Full Access 
+  
+    |                                            |                                                                 |
+    |--------------------------------------------|-----------------------------------------------------------------|
+    |![alt text](images/IaC/terraform-apply.png) |  ![alt text](images/IaC/developed-actually-on-cloud.png)        |
+
+
+   - Other significant executions have been screeshot and placed [__here__](images/IaC)
+
+
 
 
   ## 📦 ⟶ 🔁 ⟶ 🎯Reporoducibility ##
