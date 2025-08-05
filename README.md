@@ -182,7 +182,7 @@
     |![alt text](images/IaC/terraform-apply.png) |  ![alt text](images/IaC/developed-actually-on-cloud.png)        |
 
 
-   - Other significant executions have been screeshot and placed [__here__](images/IaC)
+   - Other significant executions have been screeshot and placed at [__here__](images/IaC)
 
 
  ## Training Pipeline with Experiment tracking and model registry
@@ -198,12 +198,47 @@
    - For productionizing the MLFlow atifact store, it has been pointed to a data lake (S3 bucket)
 
         
-   |                                                                     |                                                                    |                                           |
+   |                                                                     |                                                                    |                                         |
    |---------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------|
    | ![alt text](images/training/compair-rmse-of-all-experimnt-runs.png) | ![alt text](images/training/mlflow-registered-perfecto-absolut.png)  | ![alt text](images/training/final-s3-web-console-artifact.png) |
 
    
-   - Other significant executions have been screeshot and placed [__here__](images/training) 
+   - Other significant executions have been screeshot and placed at [__here__](images/training) 
+
+
+ ## 🕒 [⚙️]→[⚙️] Pipeline Orchestraion and Workflow Deployment
+
+   - Both the training and monitoring (not yet ⟶ to be done) pipelines are orchestrated with Prefect.
+
+   - The orchestrated pipelines (currently only the [training](orchestration/orchestrated_training_pipeline.py)) can be run manually at will and even deployed for scheduled executions.
+
+       
+   ![alt text](images/orchestration/orchestrated-train-pipeline.gif) 
+
+   
+   |                                                             |                                                                 |
+   |-------------------------------------------------------------|-----------------------------------------------------------------|
+   |![alt text](images/orchestration/fully-deployed-prefect.png) |  ![alt text](images/orchestration/scheduled-as-per-cron.png)    |
+
+ 
+  - Other significant executions have been screeshot and placed at [__here__](images/orchestration) 
+
+
+
+ ## 🌐Deployment
+
+   - The deployment pipeline receives the model artifact bundle containing the model + DV (encoder) as one of the outputs of the training pipeline.
+
+   - The deployment pipeline containerizes the model service (FastAPI + uvcorn) as well as the model service consuming Streamlit app service and orchestrates the 2 services with docker-compose.
+
+   - The Streamlit app offers a prediction service namely [__Washington DC Bike Sharing Demand Hourly Prediction Service__](http://ec2-16-16-201-186.eu-north-1.compute.amazonaws.com:8501/) (courtesy to city on which the data is based!) [_N.B. I might have to shut down the EC2 VM instance if large cost is seen to be incurred!!_]
+
+   ![alt text](images/deployment/containerized-deployment.gif)
+
+ 
+  - Other significant executions have been screeshot and placed at [__here__](images/deployment) 
+
+
 
   ## 📦 ⟶ 🔁 ⟶ 🎯Reporoducibility ##
 
