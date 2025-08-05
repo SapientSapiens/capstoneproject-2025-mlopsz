@@ -225,7 +225,7 @@
 
 
 
- ## 🌐Deployment
+ ## 🌐Model Deployment
 
    - The deployment pipeline receives the model artifact bundle containing the model + DV (encoder) as one of the outputs of the training pipeline.
 
