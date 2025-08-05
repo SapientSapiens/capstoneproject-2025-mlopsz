@@ -343,7 +343,7 @@
 
              ./deploymwnt/activate_deployment.sh
 
-  - Once the services/containers are up, you can invoke http://<your-public-ip-or-your-localhost>:8501 and use the Bike Sharing Demand Hourly Prediction Service.
+  - Once the services/containers are up, you can invoke http://your-public-ip-or-your-localhost:8501 and use the Washington DC Bike Sharing Demand Hourly Prediction Service app.
 
 
       
