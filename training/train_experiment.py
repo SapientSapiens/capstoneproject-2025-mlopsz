@@ -20,8 +20,8 @@ BUCKET = "mlops-zoomcamp-bike-sharing-bucket"
 PREFIX = "data"
 pickle_file_name = "feature_engineered_data.pkl"
 
+EXPERIMENT_NAME_PREFIX = "search_optimized_hyperparameters"
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
-mlflow.set_experiment("bike_demand_prediction_experiment")
 
 # Reads a pickle (.pkl) file from an S3 bucket and loads it into a pandas DataFrame.
 @task(name="read_pickle_file_from_S3", retries=3, retry_delay_seconds=10)
@@ -71,11 +71,11 @@ def preprocess_for_train(df):
     return X_train_vec, y_train, X_test_vec, y_test, dv
 
 @task(name="hyper_parameter_tuning_experiment")
-def optimized_training(X_train_vec, y_train, X_val_vec, y_val, dv, num_trials):
+def optimized_training(X_train_vec, y_train, X_val_vec, y_val, dv, num_trials, version_number):
 
     def objective(params):
         with mlflow.start_run():  # start mlflow experiment tracking 
-            mlflow.set_tag("model", "lightgbm")
+            mlflow.set_tag("LGBMRegressor", f"Version Number: {version_number}")
             mlflow.log_params(params) # log the list of hyperparameters 
 
             model = LGBMRegressor(**params,
@@ -94,7 +94,13 @@ def optimized_training(X_train_vec, y_train, X_val_vec, y_val, dv, num_trials):
             mlflow.log_metric("rmse", rmse)
             mlflow.log_metric("r2", r2)
             mlflow.log_metric("msle", msle)
-            return {'loss': rmse, 'r-squared': r2, 'log-loss':msle,  'status': STATUS_OK}
+
+            return {
+                'loss': rmse,
+                'r-squared': r2,
+                'log-loss': msle,
+                'status': STATUS_OK
+            }
 
     search_space = {
         'n_estimators': scope.int(hp.quniform('n_estimators', 100, 1500, 50)),  
@@ -108,22 +114,34 @@ def optimized_training(X_train_vec, y_train, X_val_vec, y_val, dv, num_trials):
     }
 
     rstate = np.random.default_rng(42)
+    trials = Trials()
+
     fmin(
         fn=objective,
         space=search_space,
         algo=tpe.suggest,
         max_evals=num_trials,
-        trials=Trials(),
+        trials=trials,
         rstate=rstate
     )
     logger.info(f"✅ Successfully completed the {num_trials} experimnent runs")
 
+    return round(trials.best_trial['result']['loss'], 2)
+
 @task(name="run_track_experiment")
-def run_track_experiment():
+def run_track_experiment(version_number : str):
+    if not version_number:
+       raise ValueError("Version number is required but not provided.")
+
+    experiment_name = f"{EXPERIMENT_NAME_PREFIX}_{version_number}"
+    mlflow.set_experiment(experiment_name)
+
     df = read_pickle_from_s3(BUCKET, f"{PREFIX}/{pickle_file_name}")
     X_train_vec, y_train, X_val_vec, y_val, dv = preprocess_for_train(df) # as the test data is to be used for validation
-    optimized_training(X_train_vec, y_train, X_val_vec, y_val, dv, 20)
+    best_rmse = optimized_training(X_train_vec, y_train, X_val_vec, y_val, dv, 20, version_number)
+
+    return str(best_rmse)
 
 
-if __name__ == '__main__':
-    run_track_experiment()
+#if __name__ == '__main__':
+   # run_track_experiment()

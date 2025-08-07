@@ -1,5 +1,5 @@
 #!/bin/bash
-cd ~/capstoneproject-2025-mlopsz
+cd /home/ubuntu/capstoneproject-2025-mlopsz
 
 mlflow server \
     --backend-store-uri sqlite:///mlflow.db \
