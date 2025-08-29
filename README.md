@@ -213,7 +213,7 @@
    - The orchestrated pipelines (currently only the [training](orchestration/orchestrated_training_pipeline.py)) can be run manually at will and even deployed for scheduled executions.
 
        
-   ![alt text](images/orchestration/orchestrated-train-pipeline.gif) 
+   ![alt text](images/orchestration/natun-prefect-DAG.png) 
 
    
    |                                                             |                                                                 |
