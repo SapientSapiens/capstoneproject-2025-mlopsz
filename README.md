@@ -147,7 +147,7 @@
 
    - Prefect as the orchestration tool scheduling and executing pipeline workflows
 
-   - MLFlow for experiment tracking, moodel versioning and artifact storing at S3
+   - MLFlow for experiment tracking, model versioning and artifact storing at S3
 
    - Evidently AI for MLOPS monitoring & drift detection, and  Graphana for isualiztion & alerting (__**to be completed**__)
 
