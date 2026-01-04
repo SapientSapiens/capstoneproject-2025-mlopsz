@@ -149,7 +149,7 @@
 
    - MLFlow for experiment tracking, model versioning and artifact storing at S3
 
-   - Evidently AI for MLOPS monitoring & drift detection, and  Graphana for isualiztion & alerting (__**to be completed**__)
+   - Evidently AI for MLOPS monitoring & drift detection, and  Graphana for visualiztion & alerting (__**to be completed**__)
 
    - Hyperopt, scikit-learn, LightGBM  for ML tasks
 
